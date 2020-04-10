@@ -2,6 +2,7 @@ package edu.smith.cs.csc212.lists;
 
 import me.jjfoley.adt.ListADT;
 import me.jjfoley.adt.errors.BadIndexError;
+import me.jjfoley.adt.errors.EmptyListError;
 import me.jjfoley.adt.errors.TODOErr;
 
 /**
@@ -21,17 +22,55 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeFront() {
 		checkNotEmpty();
-		throw new TODOErr();
+		T removing = this.start.value;   // get the value(node) we want to delete
+		this.start = this.start.next;    // make the beginning 
+		return removing;
 	}
 
 	@Override
 	public T removeBack() {
-		throw new TODOErr();
+		if(this.start == null) {// if the linked list is empty then throw error
+			throw new EmptyListError();
+		}else if(this.size() == 1){
+			return this.removeFront();
+		}
+		
+		T removing =this.start.value;  // made it equal to this as a placeholder
+		for(Node<T> n = this.start; n != null ; n = n.next) {
+			if(n.next.next == null) {   // stop at the value before the last value 
+				removing = n.next.value;   // assign the value that we will remove to a var
+				n.next = null;       // remove the value
+				break;         //stop going through the loop 
+			}
+		}
+		return removing;
 	}
 
 	@Override
 	public T removeIndex(int index) {
-		throw new TODOErr();
+		if(index == 0) {              // if it is the first index add to front
+			return this.removeFront();
+			
+		}else if(index == this.size()-1){  // if it is the last index then remove the back
+			return this.removeBack();
+			
+		}else if(this.size() == 0) {    // bad index error if the index is out of range
+			throw new EmptyListError();
+		}else if (index > this.size() || index < 0) {
+			throw new BadIndexError(index);
+		}
+		
+		T removeValue= this.start.value;
+		int iCounter = 0;
+		
+		for(Node<T> n = this.start; n != null; n=n.next, iCounter++) {
+			if(iCounter == index-1) {
+				removeValue = n.next.value;  // get the value we will be removing into a variable
+				n.next = n.next.next;   // 
+				break;
+			}
+		}
+		return removeValue;
 	}
 
 	@Override
@@ -41,24 +80,64 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addBack(T item) {
-		throw new TODOErr();
+		if(this.start == null) {
+			this.addFront(item);
+			return;
+		}
+		
+		
+		for(Node<T> n = this.start; n != null; n=n.next) {
+			if(n.next == null) {  // if the node we are in has a next that is null we are at the back
+				n.next = new Node<T>(item,null);
+				return;    // to terminate the for loop
+			}
+			
+		}
 	}
 
 	@Override
 	public void addIndex(int index, T item) {
-		throw new TODOErr();
+		int Icounter = 0;
+		
+		if(index == 0) {
+			this.addFront(item);
+			return;
+			
+		}else if(index == this.size()) {
+			this.addBack(item);	
+			return;
+		}else if(index >= this.size() || index < 0) {
+			throw new BadIndexError(index);
+		
+	}
+		for(Node<T> n = this.start; n !=null; n =n.next, Icounter++ ) {
+			if(Icounter != index -1 ) {
+				continue;
+			}else {
+				Node<T> originalNextVal = n.next;
+				n.next = new Node<T>(item,originalNextVal);
+			}
+		}
 	}
 
 	@Override
 	public T getFront() {
 		checkNotEmpty();
-		throw new TODOErr();
+		return this.start.value;   // the start is just a pointer but the value 
 	}
 
 	@Override
 	public T getBack() {
 		checkNotEmpty();
-		throw new TODOErr();
+		T finalvalue = this.start.value;                // make a variable for where I am going to store the value in gonna return
+		for(Node<T> n = this.start; n !=null; n=n.next) {    // while the current node exists(not null)
+			if(n.next == null) {  // if the next node is null that means that that node is the last node
+				finalvalue = n.value;   // get the value of that node 
+				break;   // break off the for loop
+			}
+		
+		}
+		return finalvalue;
 	}
 
 	@Override
@@ -76,7 +155,17 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public void setIndex(int index, T value) {
 		checkNotEmpty();
-		throw new TODOErr();
+		if(index >=this.size() || index < 0) {
+			throw new BadIndexError(index);
+		}
+		
+		
+		int iCounter=0;
+		for(Node<T> n = this.start; n != null ; n=n.next,iCounter++) {
+			if(index == iCounter) {
+				n.value = value;
+			}
+		}
 	}
 
 	@Override

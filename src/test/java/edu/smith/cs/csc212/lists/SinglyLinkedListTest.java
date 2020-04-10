@@ -197,6 +197,7 @@ public class SinglyLinkedListTest {
 			}
 			int value = items1.removeIndex(rand.nextInt(items1.size()));
 			testNoLoops(items1);
+			System.out.println(items2);
 			insertSorted(items2, value);
 			testNoLoops(items2);
 		}
@@ -271,6 +272,7 @@ public class SinglyLinkedListTest {
 		Assert.assertEquals("A", data.getFront());
 		data.addIndex(0, "B");
 		testNoLoops(data);
+		System.out.println(data);
 		Assert.assertEquals(2, data.size());
 		Assert.assertEquals("B", data.getFront());
 		Assert.assertEquals("A", data.getBack());
