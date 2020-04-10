@@ -89,6 +89,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 		return removing;
 	}
 
+	// comment to test
 	@Override
 	public T removeIndex(int index) {
 		checkNotEmpty();
