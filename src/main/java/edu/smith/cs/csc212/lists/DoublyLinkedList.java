@@ -173,7 +173,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 			this.size+=1;                        // add 1 to the size because you are adding
 		} else {
 			Node<T> secondLast = end;    // hold onto the current last node
-			end = new Node<T>(item);     //c reate a new node 
+			end = new Node<T>(item);     //create a new node 
 			end.before = secondLast;     // put the before pointer to the new end equal to the old last node
 			secondLast.after = end;      // set the end pointer to the new node you made
 			this.size +=1;               // add 1 to the size because you are adding
